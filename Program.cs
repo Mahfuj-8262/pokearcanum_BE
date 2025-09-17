@@ -6,12 +6,20 @@ using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 // using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var keyVaultName = Environment.GetEnvironmentVariable("KEY_VAULT_NAME");
+var kvUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
+builder.Configuration.AddAzureKeyVault(kvUri, new DefaultAzureCredential());
+string dbConnection = builder.Configuration["PokeArcanumSecretDbConnectionString"]!;
+if (string.IsNullOrEmpty(dbConnection)) throw new Exception("DB connection string not found in Key Vault!");
+
 builder.Services.AddDbContext<AppDbContext>(opts =>
-    opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    opts.UseSqlServer(dbConnection));
 
 builder.Services.AddIdentityCore<User>(opts =>
 {
@@ -49,12 +57,14 @@ builder.Logging.AddConsole();
 // });
 
 var jwtConfig = builder.Configuration.GetSection("Jwt");
-var secretKey = jwtConfig["Key"] ?? throw new InvalidOperationException("JWT Key is missing!");
+
+string secretKey = builder.Configuration["PokeArcanumJwtSecretkey"]!;
+if (string.IsNullOrEmpty(secretKey)) throw new Exception("JWT secret not found in Key Vault!");
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.RequireHttpsMetadata = false;  // allow http for local dev
+        options.RequireHttpsMetadata = false;  
         options.SaveToken = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
