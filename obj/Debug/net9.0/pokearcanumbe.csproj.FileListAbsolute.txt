@@ -171,3 +171,9 @@ C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\obj\Debug\net9.0\ref\pokea
 C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\bin\Debug\net9.0\Azure.Extensions.AspNetCore.Configuration.Secrets.dll
+C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\bin\Debug\net9.0\Azure.Security.KeyVault.Secrets.dll
+C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\bin\Debug\net9.0\Azure.Storage.Blobs.dll
+C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\bin\Debug\net9.0\Azure.Storage.Common.dll
+C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\bin\Debug\net9.0\System.IO.Hashing.dll
+C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\obj\Debug\net9.0\pokearcanumbe.sourcelink.json
