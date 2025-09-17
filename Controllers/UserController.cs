@@ -20,7 +20,7 @@ namespace pokearcanumbe.Controllers
         private readonly IConfiguration _config = config;
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserRegDto dto)
+        public async Task<IActionResult> Register([FromBody] UserRegDto dto)
         {
             if (await _user.FindByEmailAsync(dto.Email) != null) return BadRequest("Email already registered!");
             var user = new User
@@ -37,7 +37,7 @@ namespace pokearcanumbe.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<AuthResponseDto>> Login(LoginDto dto)
+        public async Task<ActionResult<AuthResponseDto>> Login([FromBody] LoginDto dto)
         {
             var user = await _user.FindByEmailAsync(dto.Email);
             if (user == null || !await _user.CheckPasswordAsync(user, dto.Password))
