@@ -36,16 +36,31 @@ builder.Services.AddIdentityCore<User>(opts =>
 
 builder.Services.AddControllers();
 
+// builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy("AllowFrontend",
+//         policy => policy.WithOrigins("https://gray-beach-0f7281100.2.azurestaticapps.net")
+//                         .AllowAnyHeader()
+//                         .AllowAnyMethod());
+// });
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend",
-        policy => policy.WithOrigins("https://gray-beach-0f7281100.2.azurestaticapps.net")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy
+            .WithOrigins(
+                "http://localhost:3000",  
+                "https://gray-beach-0f7281100.2.azurestaticapps.net" 
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
 });
 
-builder.Logging.AddDebug();
-builder.Logging.AddConsole();
+// builder.Logging.AddDebug();
+// builder.Logging.AddConsole();
 
 // builder.Services.AddCors(options =>
 // {
