@@ -39,7 +39,7 @@ builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
-        policy => policy.WithOrigins("http://localhost:3000")
+        policy => policy.WithOrigins("https://gray-beach-0f7281100.2.azurestaticapps.net")
                         .AllowAnyHeader()
                         .AllowAnyMethod());
 });
