@@ -122,8 +122,13 @@ namespace pokearcanumbe.Controllers
 
         private string GenerateJwtToken(User user)
         {
+
+            var secretKey = _config["PokeArcanumJwtSecretkey"];
+            if (string.IsNullOrEmpty(secretKey))
+                throw new Exception("JWT signing key not found in configuration!");
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var JwtConfig = _config.GetSection("Jwt");
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtConfig["Key"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
