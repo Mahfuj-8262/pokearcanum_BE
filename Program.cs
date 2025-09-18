@@ -12,6 +12,9 @@ using Azure.Security.KeyVault.Secrets;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers();
+
+
 var keyVaultName = Environment.GetEnvironmentVariable("KEY_VAULT_NAME");
 var kvUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
 builder.Configuration.AddAzureKeyVault(kvUri, new DefaultAzureCredential());
@@ -20,6 +23,14 @@ if (string.IsNullOrEmpty(dbConnection)) throw new Exception("DB connection strin
 
 builder.Services.AddDbContext<AppDbContext>(opts =>
     opts.UseSqlServer(dbConnection));
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy => policy.WithOrigins("https://gray-beach-0f7281100.2.azurestaticapps.net")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+});
 
 builder.Services.AddIdentityCore<User>(opts =>
 {
@@ -34,30 +45,23 @@ builder.Services.AddIdentityCore<User>(opts =>
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
 
-builder.Services.AddControllers();
+
+
 
 // builder.Services.AddCors(options =>
 // {
-//     options.AddPolicy("AllowFrontend",
-//         policy => policy.WithOrigins("https://gray-beach-0f7281100.2.azurestaticapps.net")
-//                         .AllowAnyHeader()
-//                         .AllowAnyMethod());
+//     options.AddPolicy("AllowFrontend", policy =>
+//     {
+//         policy
+//             .WithOrigins(
+//                 "http://localhost:3000",  
+//                 "https://gray-beach-0f7281100.2.azurestaticapps.net" 
+//             )
+//             .AllowAnyHeader()
+//             .AllowAnyMethod()
+//             .AllowCredentials();
+//     });
 // });
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy
-            .WithOrigins(
-                "http://localhost:3000",  
-                "https://gray-beach-0f7281100.2.azurestaticapps.net" 
-            )
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
-    });
-});
 
 // builder.Logging.AddDebug();
 // builder.Logging.AddConsole();
@@ -96,39 +100,39 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "Pokearcanumbe API",
-        Version = "v1"
-    });
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "Enter 'Bearer {your JWT token}'"
-    });
+// builder.Services.AddEndpointsApiExplorer();
+// builder.Services.AddSwaggerGen(c =>
+// {
+//     c.SwaggerDoc("v1", new OpenApiInfo
+//     {
+//         Title = "Pokearcanumbe API",
+//         Version = "v1"
+//     });
+//     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+//     {
+//         Name = "Authorization",
+//         Type = SecuritySchemeType.ApiKey,
+//         Scheme = "Bearer",
+//         BearerFormat = "JWT",
+//         In = ParameterLocation.Header,
+//         Description = "Enter 'Bearer {your JWT token}'"
+//     });
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
+//     c.AddSecurityRequirement(new OpenApiSecurityRequirement
+//     {
+//         {
+//             new OpenApiSecurityScheme
+//             {
+//                 Reference = new OpenApiReference
+//                 {
+//                     Type = ReferenceType.SecurityScheme,
+//                     Id = "Bearer"
+//                 }
+//             },
+//             Array.Empty<string>()
+//         }
+//     });
+// });
 
 
 var app = builder.Build();
@@ -139,16 +143,16 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate(); 
 }
 
-if (app.Environment.IsDevelopment())
-{
-    // app.MapOpenApi();
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pokearcanumbe API v1");
-        c.RoutePrefix = string.Empty; // Swagger at root URL
-    });
-}
+// if (app.Environment.IsDevelopment())
+// {
+//     // app.MapOpenApi();
+//     app.UseSwagger();
+//     app.UseSwaggerUI(c =>
+//     {
+//         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pokearcanumbe API v1");
+//         c.RoutePrefix = string.Empty; // Swagger at root URL
+//     });
+// }
 
 app.UseHttpsRedirection();
 app.UseRouting();
