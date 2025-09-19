@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using pokearcanumbe.Data;
 using pokearcanumbe.Models;
+using pokearcanumbe.Services;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -133,6 +134,8 @@ builder.Services.AddAuthorization();
 //         }
 //     });
 // });
+
+builder.Services.AddScoped<BlobService>();
 
 
 var app = builder.Build();

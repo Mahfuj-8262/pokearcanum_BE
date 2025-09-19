@@ -88,6 +88,23 @@
           }
         }
       },
+      "Azure.Storage.Blobs.Batch/12.22.0": {
+        "type": "package",
+        "dependencies": {
+          "Azure.Storage.Blobs": "12.25.0",
+          "Azure.Storage.Common": "12.24.0"
+        },
+        "compile": {
+          "lib/net8.0/Azure.Storage.Blobs.Batch.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Azure.Storage.Blobs.Batch.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Azure.Storage.Common/12.24.0": {
         "type": "package",
         "dependencies": {
@@ -1912,6 +1929,26 @@
         "lib/netstandard2.0/Azure.Storage.Blobs.xml",
         "lib/netstandard2.1/Azure.Storage.Blobs.dll",
         "lib/netstandard2.1/Azure.Storage.Blobs.xml"
+      ]
+    },
+    "Azure.Storage.Blobs.Batch/12.22.0": {
+      "sha512": "Tj0dpkhfPP/SX7Mfusqo+Ncx2CFiwGgoDarB+jm0pM12X+UPtnojouYc2lwhQH8GuiDycfcnibZN4/3bsiFLew==",
+      "type": "package",
+      "path": "azure.storage.blobs.batch/12.22.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "CHANGELOG.md",
+        "README.md",
+        "azure.storage.blobs.batch.12.22.0.nupkg.sha512",
+        "azure.storage.blobs.batch.nuspec",
+        "azureicon.png",
+        "lib/net6.0/Azure.Storage.Blobs.Batch.dll",
+        "lib/net6.0/Azure.Storage.Blobs.Batch.xml",
+        "lib/net8.0/Azure.Storage.Blobs.Batch.dll",
+        "lib/net8.0/Azure.Storage.Blobs.Batch.xml",
+        "lib/netstandard2.0/Azure.Storage.Blobs.Batch.dll",
+        "lib/netstandard2.0/Azure.Storage.Blobs.Batch.xml"
       ]
     },
     "Azure.Storage.Common/12.24.0": {
@@ -5162,6 +5199,7 @@
       "Azure.Identity >= 1.16.0",
       "Azure.Security.KeyVault.Secrets >= 4.8.0",
       "Azure.Storage.Blobs >= 12.25.0",
+      "Azure.Storage.Blobs.Batch >= 12.22.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 9.0.9",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 9.0.9",
       "Microsoft.AspNetCore.OpenApi >= 9.0.8",
@@ -5229,6 +5267,10 @@
           "Azure.Storage.Blobs": {
             "target": "Package",
             "version": "[12.25.0, )"
+          },
+          "Azure.Storage.Blobs.Batch": {
+            "target": "Package",
+            "version": "[12.22.0, )"
           },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",

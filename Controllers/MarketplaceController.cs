@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using pokearcanumbe.Services;
 
 namespace pokearcanumbe.Controllers
 {
@@ -40,12 +41,18 @@ namespace pokearcanumbe.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Marketplace>> PostMarketplace([FromBody] MarketplacePostDto dto)
+        public async Task<ActionResult<Marketplace>> PostMarketplace([FromForm] MarketplacePostDto dto, IFormFile? imageFile, [FromServices] BlobService blobService)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
             var user = await _context.Users.FindAsync(userId);
+
+            string imageUrl = string.Empty;
+            if (imageFile != null)
+            {
+                imageUrl = await blobService.UploadFileAsync(imageFile);
+            }
 
             var card = new Card
             {
@@ -53,7 +60,7 @@ namespace pokearcanumbe.Controllers
                 Hp = dto.Hp,
                 Rarity = dto.Rarity,
                 Type = dto.Type,
-                Link = dto.Link,
+                Link = imageUrl,
                 Description = dto.Description
             };
 

@@ -177,3 +177,4 @@ C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\bin\Debug\net9.0\Azure.Sto
 C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\bin\Debug\net9.0\Azure.Storage.Common.dll
 C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\bin\Debug\net9.0\System.IO.Hashing.dll
 C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\obj\Debug\net9.0\pokearcanumbe.sourcelink.json
+C:\Users\mafu5\Documents\pokemonarcanum\pokearcanumbe\bin\Debug\net9.0\Azure.Storage.Blobs.Batch.dll
