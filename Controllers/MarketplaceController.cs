@@ -157,31 +157,31 @@ namespace pokearcanumbe.Controllers
             return Ok(topCards);
         }
 
-        [HttpPost("upload")]
-        public async Task<IActionResult> UploadImage(IFormFile file, [FromServices] IConfiguration config)
-        {
-            if (file == null || file.Length == 0)
-                return BadRequest("No file uploaded.");
+        // [HttpPost("upload")]
+        // public async Task<IActionResult> UploadImage(IFormFile file, [FromServices] IConfiguration config)
+        // {
+        //     if (file == null || file.Length == 0)
+        //         return BadRequest("No file uploaded.");
 
-            var containerName = config["AzureStorage:ContainerName"];
-            var connectionString = config["AzureStorage:ConnectionString"];
+        //     var containerName = config["AzureStorage:ContainerName"];
+        //     var connectionString = config["AzureStorage:ConnectionString"];
 
-            var blobServiceClient = new BlobServiceClient(connectionString);
-            var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
-            await containerClient.CreateIfNotExistsAsync(PublicAccessType.Blob);
+        //     var blobServiceClient = new BlobServiceClient(connectionString);
+        //     var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+        //     await containerClient.CreateIfNotExistsAsync(PublicAccessType.Blob);
 
-            // Give unique name
-            var blobName = $"{Guid.NewGuid()}-{file.FileName}";
-            var blobClient = containerClient.GetBlobClient(blobName);
+        //     // Give unique name
+        //     var blobName = $"{Guid.NewGuid()}-{file.FileName}";
+        //     var blobClient = containerClient.GetBlobClient(blobName);
 
-            using (var stream = file.OpenReadStream())
-            {
-                await blobClient.UploadAsync(stream, true);
-            }
+        //     using (var stream = file.OpenReadStream())
+        //     {
+        //         await blobClient.UploadAsync(stream, true);
+        //     }
 
-            var blobUrl = blobClient.Uri.ToString();
-            return Ok(new { url = blobUrl });
-        }
+        //     var blobUrl = blobClient.Uri.ToString();
+        //     return Ok(new { url = blobUrl });
+        // }
 
     }
 }

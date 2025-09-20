@@ -20,7 +20,7 @@ namespace pokearcanumbe.Models
         public int Hp { get; set; }
         public required string Rarity { get; set; }
         public required string Type { get; set; }
-        public required string Link { get; set; }
+        //public required string Link { get; set; }
         public string Description { get; set; } = string.Empty;
 
 
