@@ -77,6 +77,7 @@ namespace pokearcanumbe.Controllers
 
             _context.Trades.Add(trade);
 
+            marketplace.UserId = buyerId;
             marketplace.Status = ListingStatus.Sold;
 
             await _context.SaveChangesAsync();
