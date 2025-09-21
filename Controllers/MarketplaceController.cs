@@ -33,11 +33,14 @@ namespace pokearcanumbe.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
-            var marketplace = await _context.Marketplaces.FindAsync(id);
-            if (marketplace == null) return NotFound();
-            if (marketplace.UserId != userId) return Forbid();
+            var marketplace = await _context.Marketplaces
+                .Include(m => m.Card)
+                .Include(m => m.User)
+                .FirstOrDefaultAsync(m => m.Id == id && m.Status == ListingStatus.Available);
 
-            return marketplace;
+            if (marketplace == null) return NotFound();
+
+            return Ok(marketplace);
         }
 
         [HttpPost]
@@ -129,20 +132,20 @@ namespace pokearcanumbe.Controllers
                 .ToListAsync();
         }
 
-        [HttpGet("public/{id}")]
-        [AllowAnonymous]
-        public async Task<ActionResult<Marketplace>> GetMarketplaceDetails(int id)
-        {
-            var marketplace = await _context.Marketplaces
-                .Include(m => m.Card)
-                .Include(m => m.User)
-                .FirstOrDefaultAsync(m => m.Id == id && m.Status == ListingStatus.Available);
+        // [HttpGet("public/{id}")]
+        // [AllowAnonymous]
+        // public async Task<ActionResult<Marketplace>> GetMarketplaceDetails(int id)
+        // {
+        //     var marketplace = await _context.Marketplaces
+        //         .Include(m => m.Card)
+        //         .Include(m => m.User)
+        //         .FirstOrDefaultAsync(m => m.Id == id && m.Status == ListingStatus.Available);
 
-            if (marketplace == null)
-                return NotFound();
+        //     if (marketplace == null)
+        //         return NotFound();
 
-            return Ok(marketplace);
-        }
+        //     return Ok(marketplace);
+        // }
 
         [HttpGet("top")]
         [AllowAnonymous]
