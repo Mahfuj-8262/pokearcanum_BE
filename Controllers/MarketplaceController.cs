@@ -24,7 +24,7 @@ namespace pokearcanumbe.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
             if (userId == null) return Unauthorized();
 
-            return await _context.Marketplaces.Where(m => m.UserId == userId).ToListAsync();
+            return await _context.Marketplaces.Include(m => m.Card).Where(m => m.UserId == userId).ToListAsync();
         }
 
         [HttpGet("{id}")]
