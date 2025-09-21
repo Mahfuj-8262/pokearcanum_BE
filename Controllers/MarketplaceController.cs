@@ -129,6 +129,21 @@ namespace pokearcanumbe.Controllers
                 .ToListAsync();
         }
 
+        [HttpGet("public/{id}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Marketplace>> GetMarketplaceDetails(int id)
+        {
+            var marketplace = await _context.Marketplaces
+                .Include(m => m.Card)
+                .Include(m => m.User)
+                .FirstOrDefaultAsync(m => m.Id == id && m.Status == ListingStatus.Available);
+
+            if (marketplace == null)
+                return NotFound();
+
+            return Ok(marketplace);
+        }
+
         [HttpGet("top")]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Marketplace>>> GetTopCards()
