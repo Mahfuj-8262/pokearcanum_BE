@@ -9,7 +9,7 @@ namespace pokearcanumbe.Models
         public int CardId { get; set; }
         [Precision(12,4)]
         public decimal Price { get; set; }
-        public ListingStatus Status { get; set; } = ListingStatus.Available; //available reserved sold
+        public ListingStatus Status { get; set; } = ListingStatus.Available;
         public Card? Card { get; set; }
         public User? User { get; set; }
     }
@@ -25,7 +25,7 @@ namespace pokearcanumbe.Models
 
 
         public decimal Price { get; set; }
-        public ListingStatus Status { get; set; }
+        // public ListingStatus Status { get; set; }
     }
 
     public class MarketplacePutDto

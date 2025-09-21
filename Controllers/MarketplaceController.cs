@@ -72,7 +72,7 @@ namespace pokearcanumbe.Controllers
                 UserId = userId,
                 CardId = card.Id,
                 Price = dto.Price,
-                Status = dto.Status,
+                Status = ListingStatus.Available,
                 Card = card,
                 User = user
             };
@@ -131,27 +131,13 @@ namespace pokearcanumbe.Controllers
 
         [HttpGet("top")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetTopCards()
+        public async Task<ActionResult<IEnumerable<Marketplace>>> GetTopCards()
         {
             var topCards = await _context.Marketplaces
                 .Include(m => m.Card)
                 .Where(m => m.Status == ListingStatus.Available)
-                .OrderByDescending(m => m.Id) // newest IDs = most recent
+                .OrderByDescending(m => m.Id)
                 .Take(5)
-                .Select(m => new
-                {
-                    id = m.Id,
-                    price = m.Price,
-                    status = m.Status,
-                    card = new
-                    {
-                        cardName = m.Card!.CardName,
-                        link = m.Card.Link,
-                        type = m.Card.Type,
-                        rarity = m.Card.Rarity,
-                        hp = m.Card.Hp
-                    }
-                })
                 .ToListAsync();
 
             return Ok(topCards);
